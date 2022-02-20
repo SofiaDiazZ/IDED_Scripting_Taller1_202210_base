@@ -104,7 +104,37 @@ namespace TestProject1
 
         internal static Dictionary<int, EValueType> SortDictionaryRegistries(Dictionary<int, EValueType> sourceDict)
         {
-            Dictionary<int, EValueType> result = null;
+            Dictionary<int, EValueType> result = new Dictionary<int, EValueType>(); //Diccionario a entregar al problema
+
+            int[] llaves = new int[sourceDict.Count];
+            sourceDict.Keys.CopyTo(llaves, 0);
+
+
+            EValueType[] valores = new EValueType[sourceDict.Count];
+            sourceDict.Values.CopyTo(valores, 0);
+
+            for (int i = 0; i < llaves.Length; i++)
+            {
+                for (int k = 0; k < llaves.Length - 1; k++)
+                {
+                    int llaveDeAdelante = llaves[k + 1];
+                    EValueType valorDeAdelante = valores[k + 1];
+
+                    if (llaves[k] < llaveDeAdelante)
+                    {
+                        llaves[k + 1] = llaves[k];
+                        llaves[k] = llaveDeAdelante;
+
+                        valores[k + 1] = valores[k];
+                        valores[k] = valorDeAdelante;
+                    }
+                }
+            }
+
+            for (int i = 0; i < sourceDict.Count; i++)
+            {
+                result.Add(llaves[i], valores[i]);
+            }
 
             return result;
         }
