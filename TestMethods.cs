@@ -141,7 +141,48 @@ namespace TestProject1
 
         internal static Queue<Ticket>[] ClassifyTickets(List<Ticket> sourceList)
         {
-            Queue<Ticket>[] result = null;
+            Queue<Ticket>[] result = new Queue<Ticket>[3];
+
+            Queue<Ticket> paymentCola = new Queue<Ticket>();
+            Queue<Ticket> subscriptionCola = new Queue<Ticket>();
+            Queue<Ticket> cancellationCola = new Queue<Ticket>();
+
+            Ticket[] copia = sourceList.ToArray();
+
+            for (int i = 0; i < copia.Length; i++)
+            {
+                for (int k = 0; k < copia.Length - 1; k++)
+                {
+                    int turnoDeAdelante = copia[k + 1].Turn;
+                    Ticket ticketDeAdelante = copia[k + 1];
+
+                    if (copia[k].Turn > turnoDeAdelante)
+                    {
+                        copia[k + 1] = copia[k];
+                        copia[k] = ticketDeAdelante;
+                    }
+                }
+            }
+
+            for (int i = 0; i < copia.Length; i++)
+            {
+                if (copia[i].RequestType == Ticket.ERequestType.Payment)
+                {
+                    paymentCola.Enqueue(copia[i]);
+                }
+                else if (copia[i].RequestType == Ticket.ERequestType.Subscription)
+                {
+                    subscriptionCola.Enqueue(copia[i]);
+                }
+                else if (copia[i].RequestType == Ticket.ERequestType.Cancellation)
+                {
+                    cancellationCola.Enqueue(copia[i]);
+                }
+            }
+
+            result[0] = paymentCola;
+            result[1] = subscriptionCola;
+            result[2] = cancellationCola;
 
             return result;
         }
