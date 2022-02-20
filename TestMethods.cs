@@ -15,7 +15,39 @@ namespace TestProject1
 
         internal static Stack<int> GetNextGreaterValue(Stack<int> sourceStack)
         {
-            Stack<int> result = null;
+            Stack<int> result = new Stack<int>();
+
+            int[] arregloCopia = sourceStack.ToArray();
+
+            List<int> resultadosSinOrdenar = new List<int>();
+
+            for (int i = 0; i < arregloCopia.Length; i++)
+            {
+                int actual = arregloCopia[i];
+                int masGrande = actual;
+
+                for (int j = i; j >= 0; j--)
+                {
+                    if (arregloCopia[j] > masGrande)
+                    {
+                        masGrande = arregloCopia[j];
+                    }
+                }
+
+                if (masGrande == actual)
+                {
+                    resultadosSinOrdenar.Add(-1);
+                }
+                if (masGrande > actual)
+                {
+                    resultadosSinOrdenar.Add(masGrande);
+                }
+            }
+       
+            for (int i = resultadosSinOrdenar.Count - 1; i >= 0; i--)
+            {
+                result.Push(resultadosSinOrdenar[i]);
+            }
 
             return result;
         }
